@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"time"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("URL %s", r.URL.Path[7:])
+func topic(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	fmt.Printf("URL %s", vars["topic"])
 	flusher, ok := w.(http.Flusher)
 	if !ok {
 		panic("expected http.ResponseWriter to be an http.Flusher")
@@ -26,6 +28,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/topic/", handler)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	r := mux.NewRouter()
+	r.HandleFunc("/topic/{topic}", topic)
+	log.Println("Listen on port 8080...")
+	http.ListenAndServe(":8080", r)
 }
