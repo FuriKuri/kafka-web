@@ -8,6 +8,7 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("URL %s", r.URL.Path[7:])
 	flusher, ok := w.(http.Flusher)
 	if !ok {
 		panic("expected http.ResponseWriter to be an http.Flusher")
@@ -25,6 +26,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/topic/", handler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
