@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -36,9 +37,13 @@ func topic(w http.ResponseWriter, r *http.Request) {
 }
 
 func runKafkaListener(topic string, closeNotify <-chan bool, events chan string) {
+	kafkaServers, exists := os.LookupEnv("KAFKA_SERVERS")
+	if !exists {
+		kafkaServers = "localhost:9092"
+	}
 
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
-		"bootstrap.servers": "localhost:9092",
+		"bootstrap.servers": kafkaServers,
 		"group.id":          "myGroup" + pseudoUUID(),
 		"auto.offset.reset": "latest",
 	})
