@@ -44,7 +44,7 @@ func runKafkaListener(topic string, closeNotify <-chan bool, events chan string)
 
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": kafkaServers,
-		"group.id":          "myGroup" + pseudoUUID(),
+		"group.id":          "kafka-web-" + pseudoUUID(),
 		"auto.offset.reset": "latest",
 	})
 
