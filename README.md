@@ -3,9 +3,9 @@ Simple web server to view into kafka topics
 
 ## Usage
 
-### /topic/<topic-name> - Listen to topic
+### /topic/{topic-name} - Listen to topic
 
-Use `http://localhost:8080/topic/<topic-name>` to get all new message from a topic `topic-name`
+Use `http://localhost:8080/topic/{topic-name}` to get all new message from a topic `topic-name`
 
 ## Deploy
 
